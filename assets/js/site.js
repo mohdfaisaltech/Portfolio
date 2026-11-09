@@ -1,1 +1,26 @@
-(()=>{const t=document.querySelector('.menu-toggle'),n=document.querySelector('.site-nav');if(t&&n)t.addEventListener('click',()=>{const o=t.getAttribute('aria-expanded')==='true';t.setAttribute('aria-expanded',String(!o));n.classList.toggle('open',!o)});const q=document.querySelector('[data-rate-search]'),f=document.querySelector('[data-rate-filter]');function filter(){document.querySelectorAll('tbody tr[data-search]').forEach(r=>{const a=(q?.value||'').toLowerCase(),b=f?.value||'';r.hidden=!((!a||r.dataset.search.includes(a))&&(!b||r.dataset.category===b))})}q?.addEventListener('input',filter);f?.addEventListener('change',filter);document.querySelectorAll('[data-quote-form]').forEach(form=>form.addEventListener('submit',e=>{e.preventDefault();const d=new FormData(form),msg=`Hello Cooling Expert, I would like a quote.%0AName: ${encodeURIComponent(d.get('name')||'')}%0ALocality: ${encodeURIComponent(d.get('locality')||'')}%0AAC type: ${encodeURIComponent(d.get('ac_type')||'')}%0AService: ${encodeURIComponent(d.get('service')||'')}%0AIssue/details: ${encodeURIComponent(d.get('details')||'')}`;window.open(`https://wa.me/918520052291?text=${msg}`,'_blank','noopener');}));})();
+(() => {
+  const toggle = document.querySelector('.menu-toggle');
+  const nav = document.querySelector('.site-nav');
+
+  if (!toggle || !nav) return;
+
+  const closeMenu = () => {
+    nav.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  };
+
+  toggle.addEventListener('click', () => {
+    const isOpen = nav.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', String(isOpen));
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+
+  nav.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', closeMenu);
+  });
+
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') closeMenu();
+  });
+})();
